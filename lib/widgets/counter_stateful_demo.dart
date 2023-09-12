@@ -28,7 +28,7 @@ class _CounterStatefulState extends State<CounterStateful> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Counter"),
+        title: const Text("Custum Counter"),
       ),
       body: Center(
         child: Text(

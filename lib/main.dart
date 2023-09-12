@@ -12,8 +12,8 @@ class ChatApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primarySwatch: Colors.yellow),
-      home: CounterStateful(buttonColor: Colors.blue),
+      theme: ThemeData(primarySwatch: Colors.deepPurple),
+      home: LoginPage(),
     );
   }
 }

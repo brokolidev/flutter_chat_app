@@ -7,30 +7,61 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Let\'s sign you in!!',
-              style: TextStyle(
-                fontSize: 30,
-                color: Colors.brown,
-                fontWeight: FontWeight.bold,
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text(
+                'Let\'s sign you in!!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.5,
+                ),
               ),
-            ),
-            Text(
-              'Welcome back! \nYou\'ve been missed!',
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.blueGrey,
-                fontWeight: FontWeight.bold,
+              const Text(
+                'Welcome back! \nYou\'ve been missed!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-            Image.network(
-              'https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg',
-              height: 200,
-            ),
-          ],
+              Image.network(
+                'https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg',
+                height: 200,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  print('clicked!');
+                },
+                child: const Text(
+                  'Click Me!',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ),
+              OutlinedButton(
+                onPressed: () {
+                  print('This is OutlinedButton!');
+                },
+                child: const Icon(Icons.flutter_dash),
+              ),
+              TextButton(
+                onPressed: () {
+                  print('Pressed on the URL!');
+                },
+                child: const Text('https://brokolidev.com'),
+              )
+            ],
+          ),
         ),
       ),
     );
