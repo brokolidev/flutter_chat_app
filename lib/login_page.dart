@@ -54,12 +54,23 @@ class LoginPage extends StatelessWidget {
                 },
                 child: const Icon(Icons.flutter_dash),
               ),
-              TextButton(
-                onPressed: () {
-                  print('Pressed on the URL!');
+              InkWell(
+                onDoubleTap: () {
+                  print('Double Tabped!!!');
                 },
-                child: const Text('https://brokolidev.com'),
-              )
+                onLongPress: () {
+                  print('Long Pressed.');
+                },
+                onTap: () {
+                  print('Link Clicked!!');
+                },
+                child: Column(
+                  children: [
+                    Text('Find us on'),
+                    Text('https://brokolidev.com'),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
