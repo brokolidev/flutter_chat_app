@@ -17,6 +17,9 @@ class ChatApp extends StatelessWidget {
         foregroundColor: Colors.black,
       )),
       home: LoginPage(),
+      routes: {
+        '/chat' : (context) => ChatPage()
+      }
     );
   }
 }
