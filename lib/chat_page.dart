@@ -18,7 +18,9 @@ class ChatPage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              // Navigator.maybePop(context);
+              Navigator.popAndPushNamed(context, '/');
+              
             },
             icon: const Icon(Icons.logout),
           ),
