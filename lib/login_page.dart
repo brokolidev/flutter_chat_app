@@ -7,21 +7,16 @@ class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
   void loginUser(context) {
-
     // 폼 벨리데이션을 위해 아래 한 줄을 추가
-    if(_formKey.currentState != null && _formKey.currentState!.validate()) {
+    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       print(userNameController.text);
       print(passwordController.text);
-      
-      Navigator.pushReplacementNamed(
-        context,
-        '/chat',
-        arguments: '${userNameController.text}'
-      );
+
+      Navigator.pushReplacementNamed(context, '/chat',
+          arguments: '${userNameController.text}');
 
       print('login successful!!!!');
     }
-
   }
 
   final userNameController = TextEditingController();
@@ -68,7 +63,9 @@ class LoginPage extends StatelessWidget {
                     children: [
                       TextFormField(
                         validator: (value) {
-                          if(value != null && value.isNotEmpty && value.length < 5) {
+                          if (value != null &&
+                              value.isNotEmpty &&
+                              value.length < 5) {
                             return "Your username should be more than 5 characters.";
                           } else if (value != null && value.isEmpty) {
                             return "Please type your username.";
@@ -87,7 +84,9 @@ class LoginPage extends StatelessWidget {
                           border: OutlineInputBorder(),
                         ),
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       TextFormField(
                         controller: passwordController,
                         obscureText: true,
