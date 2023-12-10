@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_app/chat_page.dart';
+import 'package:flutter_chat_app/utils/spaces.dart';
+import 'package:flutter_chat_app/widgets/login_text_field.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -61,41 +62,32 @@ class LoginPage extends StatelessWidget {
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: [
-                      TextFormField(
-                        validator: (value) {
-                          if (value != null &&
-                              value.isNotEmpty &&
-                              value.length < 5) {
-                            return "Your username should be more than 5 characters.";
-                          } else if (value != null && value.isEmpty) {
-                            return "Please type your username.";
-                          }
+                      LoginTextField(
+                          controller: userNameController,
+                          hintText: '아이디를 입력해주세요.',
+                          validator: (value) {
+                            if (value != null &&
+                                value.isNotEmpty &&
+                                value.length < 5) {
+                              return "Your username should be more than 5 characters.";
+                            } else if (value != null && value.isEmpty) {
+                              return "Please type your username.";
+                            }
 
-                          return null;
-                        },
-                        controller: userNameController,
-                        // for validation when each character typed
-                        // onChanged: (value) {
-                        //   print('value: $value');
-                        // },
-                        decoration: InputDecoration(
-                          hintText: 'Add your username',
-                          hintStyle: TextStyle(color: Colors.blueGrey),
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        controller: passwordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintText: 'Add your password',
-                          hintStyle: TextStyle(color: Colors.blueGrey),
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
+                            return null;
+                          }),
+                      verticalSpacing(10),
+                      LoginTextField(
+                          controller: passwordController,
+                          hintText: '패스워드를 입력해주세요',
+                          isSecure: true,
+                          validator: (value) {
+                            if (value != null && value.isEmpty) {
+                              return "패스워드를 입력해주세요.";
+                            }
+
+                            return null;
+                          }),
                     ],
                   ),
                 ),
@@ -128,7 +120,7 @@ class LoginPage extends StatelessWidget {
                 onTap: () {
                   print('Link Clicked!!');
                 },
-                child: Column(
+                child: const Column(
                   children: [
                     Text('Find us on'),
                     Text('https://brokolidev.com'),
