@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_app/chat_page.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
   final _formKey = GlobalKey<FormState>();
 
-  void loginUser() {
+  void loginUser(context) {
 
     // 폼 벨리데이션을 위해 아래 한 줄을 추가
     if(_formKey.currentState != null && _formKey.currentState!.validate()) {
       print(userNameController.text);
       print(passwordController.text);
+      
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage(),));
 
       print('login successful!!!!');
     }
@@ -95,7 +98,9 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               ElevatedButton(
-                onPressed: loginUser,
+                onPressed: () {
+                  loginUser(context);
+                },
                 child: const Text(
                   'Login',
                   style: TextStyle(
