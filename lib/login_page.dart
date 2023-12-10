@@ -3,11 +3,18 @@ import 'package:flutter/material.dart';
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
-  void loginUser() {
-    print(userNameController.text);
-    print(passwordController.text);
+  final _formKey = GlobalKey<FormState>();
 
-    print('login successful!!!!');
+  void loginUser() {
+
+    // 폼 벨리데이션을 위해 아래 한 줄을 추가
+    if(_formKey.currentState != null && _formKey.currentState!.validate()) {
+      print(userNameController.text);
+      print(passwordController.text);
+
+      print('login successful!!!!');
+    }
+
   }
 
   final userNameController = TextEditingController();
@@ -46,25 +53,45 @@ class LoginPage extends StatelessWidget {
                 'https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg',
                 height: 200,
               ),
-              TextField(
-                controller: userNameController,
-                // for validation when each character typed
-                // onChanged: (value) {
-                //   print('value: $value');
-                // },
-                decoration: InputDecoration(
-                  hintText: 'Add your username',
-                  hintStyle: TextStyle(color: Colors.blueGrey),
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              TextField(
-                controller: passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: 'Add your password',
-                  hintStyle: TextStyle(color: Colors.blueGrey),
-                  border: OutlineInputBorder(),
+              Form(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        validator: (value) {
+                          if(value != null && value.isNotEmpty && value.length < 5) {
+                            return "Your username should be more than 5 characters.";
+                          } else if (value != null && value.isEmpty) {
+                            return "Please type your username.";
+                          }
+
+                          return null;
+                        },
+                        controller: userNameController,
+                        // for validation when each character typed
+                        // onChanged: (value) {
+                        //   print('value: $value');
+                        // },
+                        decoration: InputDecoration(
+                          hintText: 'Add your username',
+                          hintStyle: TextStyle(color: Colors.blueGrey),
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      SizedBox(height: 10,),
+                      TextFormField(
+                        controller: passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          hintText: 'Add your password',
+                          hintStyle: TextStyle(color: Colors.blueGrey),
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               ElevatedButton(
