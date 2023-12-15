@@ -52,8 +52,8 @@ class LoginPage extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              Image.network(
-                'https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg',
+              Image.asset(
+                'assets/free.jpeg',
                 height: 200,
               ),
               Form(
