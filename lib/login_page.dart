@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/utils/spaces.dart';
 import 'package:flutter_chat_app/widgets/login_text_field.dart';
+import 'package:social_media_buttons/social_media_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -22,6 +24,8 @@ class LoginPage extends StatelessWidget {
 
   final userNameController = TextEditingController();
   final passwordController = TextEditingController();
+
+  final _mainUri = Uri(scheme: 'https', host: 'brokolidev.com');
 
   @override
   Widget build(BuildContext context) {
@@ -110,23 +114,36 @@ class LoginPage extends StatelessWidget {
                 },
                 child: const Icon(Icons.flutter_dash),
               ),
-              InkWell(
-                onDoubleTap: () {
-                  print('Double Tabped!!!');
+              GestureDetector(
+                onTap: () async {
+                  if (!await launchUrl(_mainUri,
+                      mode: LaunchMode.inAppBrowserView)) {
+                    throw 'Could not launch this!';
+                  }
                 },
-                onLongPress: () {
-                  print('Long Pressed.');
-                },
-                onTap: () {
-                  print('Link Clicked!!');
-                },
-                child: const Column(
+                child: Column(
                   children: [
-                    Text('Find us on'),
-                    Text('https://brokolidev.com'),
+                    const Text('Find us on'),
+                    Text(_mainUri.toString()),
                   ],
                 ),
               ),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SocialMediaButton.twitter(
+                    color: Colors.blue,
+                    url: 'https://twitter.com/hyunseung_c',
+                  ),
+                  SocialMediaButton.github(
+                    url: 'https://github.com/brokolidev',
+                  ),
+                  SocialMediaButton.linkedin(
+                    color: Colors.blueAccent,
+                    url: 'https://linkedin.com/in/brokolidev',
+                  )
+                ],
+              )
             ],
           ),
         ),
