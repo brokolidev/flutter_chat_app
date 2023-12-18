@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_app/models/chat_message_entity.dart';
+import 'package:flutter_chat_app/repo/image_repository.dart';
 import 'package:flutter_chat_app/widgets/chat_bubble.dart';
 import 'package:flutter_chat_app/widgets/chat_input.dart';
-import 'package:http/http.dart' as http;
 
 import 'models/image_model.dart';
 
@@ -40,24 +39,7 @@ class _ChatPageState extends State<ChatPage> {
     setState(() {});
   }
 
-  Future<List<UnsplashImage>> _getNetworkImages() async {
-    var endpointUrl =
-        Uri.parse('https://api.unsplash.com/photos/random?count=10');
-
-    final response = await http.get(endpointUrl,
-        headers: {HttpHeaders.authorizationHeader: 'Client-ID '});
-
-    if (response.statusCode == 200) {
-      final List<dynamic> decodeList = jsonDecode(response.body) as List;
-      final List<UnsplashImage> randomImages = decodeList.map((listItem) {
-        return UnsplashImage.fromJson(listItem);
-      }).toList();
-
-      return randomImages;
-    } else {
-      throw Exception('Unsplash API not successful');
-    }
-  }
+  final ImageRepository _imageRepo = ImageRepository();
 
   @override
   void initState() {
@@ -68,7 +50,6 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    _getNetworkImages();
     final username = ModalRoute.of(context)!.settings.arguments as String;
 
     return Scaffold(
@@ -88,7 +69,7 @@ class _ChatPageState extends State<ChatPage> {
       body: Column(
         children: [
           FutureBuilder<List<UnsplashImage>>(
-              future: _getNetworkImages(),
+              future: _imageRepo.getNetworkImages(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
                   return Image.network(snapshot.data![0].urls.small);
