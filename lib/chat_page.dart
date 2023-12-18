@@ -3,11 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_app/models/chat_message_entity.dart';
-import 'package:flutter_chat_app/repo/image_repository.dart';
 import 'package:flutter_chat_app/widgets/chat_bubble.dart';
 import 'package:flutter_chat_app/widgets/chat_input.dart';
-
-import 'models/image_model.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -39,8 +36,6 @@ class _ChatPageState extends State<ChatPage> {
     setState(() {});
   }
 
-  final ImageRepository _imageRepo = ImageRepository();
-
   @override
   void initState() {
     _loadInitialMessages();
@@ -68,15 +63,6 @@ class _ChatPageState extends State<ChatPage> {
       ),
       body: Column(
         children: [
-          FutureBuilder<List<UnsplashImage>>(
-              future: _imageRepo.getNetworkImages(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData) {
-                  return Image.network(snapshot.data![0].urls.small);
-                }
-
-                return const CircularProgressIndicator();
-              }),
           Expanded(
             child: ListView.builder(
               itemCount: _messages.length,
