@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+import '../env/env.dart';
 import '../models/image_model.dart';
 
 class ImageRepository {
@@ -10,8 +11,11 @@ class ImageRepository {
     var endpointUrl =
         Uri.parse('https://api.unsplash.com/photos/random?count=10');
 
-    final response = await http.get(endpointUrl,
-        headers: {HttpHeaders.authorizationHeader: 'Client-ID '});
+    const unsplashApiKey = Env.unsplashApiKey;
+
+    final response = await http.get(endpointUrl, headers: {
+      HttpHeaders.authorizationHeader: 'Client-ID $unsplashApiKey'
+    });
 
     if (response.statusCode == 200) {
       final List<dynamic> decodeList = jsonDecode(response.body) as List;
