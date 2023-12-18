@@ -16,6 +16,7 @@ class ChatMessageEntity {
     return ChatMessageEntity(
         text: json['text'],
         id: json['id'],
+        imageUrl: json['image'],
         createdAt: json['createdAt'],
         author: Author.fromJson(json['author']));
   }
