@@ -7,7 +7,7 @@ import 'package:flutter_chat_app/widgets/chat_bubble.dart';
 import 'package:flutter_chat_app/widgets/chat_input.dart';
 
 class ChatPage extends StatefulWidget {
-  ChatPage({super.key});
+  const ChatPage({super.key});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -26,6 +26,11 @@ class _ChatPageState extends State<ChatPage> {
     setState(() {
       _messages = _chatMessages;
     });
+  }
+
+  onMessageSent(ChatMessageEntity entity) {
+    _messages.add(entity);
+    setState(() {});
   }
 
   @override
@@ -59,14 +64,16 @@ class _ChatPageState extends State<ChatPage> {
               itemCount: _messages.length,
               itemBuilder: (context, index) {
                 return ChatBubble(
-                    alignment: _messages[index].author.userName == 'poojab26'
+                    alignment: _messages[index].author.userName == 'pooja26'
                         ? Alignment.centerRight
                         : Alignment.centerLeft,
                     entity: _messages[index]);
               },
             ),
           ),
-          ChatInput(),
+          ChatInput(
+            onSubmit: onMessageSent,
+          ),
         ],
       ),
     );
