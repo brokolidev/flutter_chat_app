@@ -4,7 +4,47 @@ import 'package:flutter_chat_app/widgets/chat_bubble.dart';
 import 'package:flutter_chat_app/widgets/chat_input.dart';
 
 class ChatPage extends StatelessWidget {
-  const ChatPage({super.key});
+  ChatPage({super.key});
+
+  List<ChatMessageEntity> _messages = [
+    ChatMessageEntity(
+        text: 'Hello',
+        id: '1',
+        createdAt: 123412341234,
+        author: Author(userName: 'brokoli')),
+    ChatMessageEntity(
+        text: 'Hello1',
+        id: '2',
+        imageUrl:
+            'https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg',
+        createdAt: 123412141234,
+        author: Author(userName: 'brokoli2')),
+    ChatMessageEntity(
+        text: 'Hello2',
+        id: '3',
+        createdAt: 123412341234,
+        author: Author(userName: 'brokoli')),
+    ChatMessageEntity(
+        text: 'Hello3',
+        id: '4',
+        createdAt: 121412341234,
+        author: Author(userName: 'brokoli2')),
+    ChatMessageEntity(
+        text: 'Hello4',
+        id: '5',
+        createdAt: 123212341234,
+        author: Author(userName: 'brokoli')),
+    ChatMessageEntity(
+        text: 'Hello5',
+        id: '6',
+        createdAt: 123432341234,
+        author: Author(userName: 'brokoli2')),
+    ChatMessageEntity(
+        text: 'Hello6',
+        id: '7',
+        createdAt: 123414341234,
+        author: Author(userName: 'brokoli')),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -28,20 +68,13 @@ class ChatPage extends StatelessWidget {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: 10,
+              itemCount: _messages.length,
               itemBuilder: (context, index) {
                 return ChatBubble(
-                    alignment: index % 2 == 0
-                        ? Alignment.centerLeft
-                        : Alignment.centerRight,
-                    entity: ChatMessageEntity(
-                      id: '1234',
-                      text: 'Hello, This is Ted',
-                      imageUrl:
-                          'https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg',
-                      createdAt: DateTime.now().millisecondsSinceEpoch,
-                      author: Author(userName: 'Brokoli'),
-                    ));
+                    alignment: _messages[index].author.userName == 'brokoli'
+                        ? Alignment.centerRight
+                        : Alignment.centerLeft,
+                    entity: _messages[index]);
               },
             ),
           ),
