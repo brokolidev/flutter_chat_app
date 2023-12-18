@@ -4,10 +4,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_app/models/chat_message_entity.dart';
-import 'package:flutter_chat_app/models/image_model.dart';
 import 'package:flutter_chat_app/widgets/chat_bubble.dart';
 import 'package:flutter_chat_app/widgets/chat_input.dart';
 import 'package:http/http.dart' as http;
+
+import 'models/image_model.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -26,6 +27,8 @@ class _ChatPageState extends State<ChatPage> {
         return ChatMessageEntity.fromJson(listItem);
       }).toList();
 
+      print(chatMessages[0].author.userName);
+
       setState(() {
         _messages = chatMessages;
       });
@@ -37,17 +40,23 @@ class _ChatPageState extends State<ChatPage> {
     setState(() {});
   }
 
-  _getNetworkImages() async {
+  Future<List<UnsplashImage>> _getNetworkImages() async {
     var endpointUrl =
         Uri.parse('https://api.unsplash.com/photos/random?count=10');
 
     final response = await http.get(endpointUrl,
-        headers: {HttpHeaders.authorizationHeader: 'Client-ID secret'});
+        headers: {HttpHeaders.authorizationHeader: 'Client-ID '});
 
-    final List<dynamic> decodeList = jsonDecode(response.body) as List;
-    final List<UnsplashImage> randomImages = decodeList.map((listItem) {
-      return UnsplashImage.fromJson(listItem);
-    }).toList();
+    if (response.statusCode == 200) {
+      final List<dynamic> decodeList = jsonDecode(response.body) as List;
+      final List<UnsplashImage> randomImages = decodeList.map((listItem) {
+        return UnsplashImage.fromJson(listItem);
+      }).toList();
+
+      return randomImages;
+    } else {
+      throw Exception('Unsplash API not successful');
+    }
   }
 
   @override
@@ -78,12 +87,21 @@ class _ChatPageState extends State<ChatPage> {
       ),
       body: Column(
         children: [
+          FutureBuilder<List<UnsplashImage>>(
+              future: _getNetworkImages(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  return Image.network(snapshot.data![0].urls.small);
+                }
+
+                return const CircularProgressIndicator();
+              }),
           Expanded(
             child: ListView.builder(
               itemCount: _messages.length,
               itemBuilder: (context, index) {
                 return ChatBubble(
-                    alignment: _messages[index].author.userName == 'pooja26'
+                    alignment: _messages[index].author.userName == 'poojab26'
                         ? Alignment.centerRight
                         : Alignment.centerLeft,
                     entity: _messages[index]);
