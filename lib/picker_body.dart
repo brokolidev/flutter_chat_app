@@ -37,9 +37,17 @@ class NetworkImagePickerBody extends StatelessWidget {
                       child: Image.network(snapshot.data![index].urls.small));
                 },
               );
+            } else if (snapshot.hasError) {
+              return Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Text('This is the error: ${snapshot.error}'),
+              );
             }
 
-            return const CircularProgressIndicator();
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: const CircularProgressIndicator(),
+            );
           }),
     );
   }
