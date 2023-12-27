@@ -15,8 +15,13 @@ class NetworkImagePickerBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
+    return Container(
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(24), topRight: Radius.circular(24)),
+      ),
       child: FutureBuilder<List<UnsplashImage>>(
           future: _imageRepo.getNetworkImages(),
           builder: (BuildContext context,
