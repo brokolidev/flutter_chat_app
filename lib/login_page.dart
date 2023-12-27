@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_app/services/auth_service.dart';
 import 'package:flutter_chat_app/utils/spaces.dart';
 import 'package:flutter_chat_app/widgets/login_text_field.dart';
+import 'package:provider/provider.dart';
 import 'package:social_media_buttons/social_media_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -9,16 +11,13 @@ class LoginPage extends StatelessWidget {
 
   final _formKey = GlobalKey<FormState>();
 
-  void loginUser(context) {
+  Future<void> loginUser(BuildContext context) async {
     // 폼 벨리데이션을 위해 아래 한 줄을 추가
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-      print(userNameController.text);
-      print(passwordController.text);
+      await context.read<AuthService>().loginUser(userNameController.text);
 
       Navigator.pushReplacementNamed(context, '/chat',
           arguments: '${userNameController.text}');
-
-      print('login successful!!!!');
     }
   }
 
@@ -104,8 +103,8 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {
-                  loginUser(context);
+                onPressed: () async {
+                  await loginUser(context);
                 },
                 child: const Text(
                   'Login',

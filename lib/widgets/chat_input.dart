@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/picker_body.dart';
+import 'package:flutter_chat_app/services/auth_service.dart';
+import 'package:provider/provider.dart';
 
 import '../models/chat_message_entity.dart';
 
@@ -17,12 +19,14 @@ class _ChatInputState extends State<ChatInput> {
 
   String _selectedImageUrl = '';
 
-  void onSendButtonPressed() {
+  void onSendButtonPressed() async {
+    String? userNameFromCache = await context.read<AuthService>().getUserName();
+
     final newChatMessage = ChatMessageEntity(
         text: chatMessageController.text,
         id: '244',
         createdAt: DateTime.now().millisecondsSinceEpoch,
-        author: Author(userName: 'pooja26'));
+        author: Author(userName: userNameFromCache!));
 
     if (_selectedImageUrl.isNotEmpty) {
       newChatMessage.imageUrl = _selectedImageUrl;
