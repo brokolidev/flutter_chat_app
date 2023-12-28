@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/chat_page.dart';
+import 'package:flutter_chat_app/login_page.dart';
 import 'package:flutter_chat_app/services/auth_service.dart';
 import 'package:flutter_chat_app/utils/brand_color.dart';
 import 'package:provider/provider.dart';
-
-import 'login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +27,19 @@ class ChatApp extends StatelessWidget {
               backgroundColor: BrandColor.bgColor,
               foregroundColor: BrandColor.foreColor,
             )),
-        home: LoginPage(),
+        home: FutureBuilder<bool>(
+          builder: (context, AsyncSnapshot<bool> snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData && snapshot.data!) {
+                return const ChatPage();
+              } else {
+                return LoginPage();
+              }
+            }
+            return const CircularProgressIndicator();
+          },
+          future: context.watch<AuthService>().isLoggedIn(),
+        ),
         routes: {'/chat': (context) => ChatPage()});
   }
 }
