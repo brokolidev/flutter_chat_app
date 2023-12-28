@@ -11,7 +11,7 @@ void main() async {
 
   await AuthService.init();
 
-  runApp(Provider(
+  runApp(ChangeNotifierProvider(
     create: (BuildContext context) => AuthService(),
     child: ChatApp(),
   ));
